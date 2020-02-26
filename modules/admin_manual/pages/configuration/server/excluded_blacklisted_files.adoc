@@ -8,7 +8,7 @@
   `.htaccess` file. Blacklisting prevents anyone from uploading
   blacklisted files to the ownCloud server.
 *Excluded*::
-  Existing directories on your ownCloud server, including external
+  Existing directories on your ownCloud server, including directories on external
   storage mounts, that are excluded from being processed by ownCloud. In
   effect they are invisible to ownCloud.
 
@@ -20,6 +20,17 @@ file explorer, the path cannot be accessed.
 
 For example configurations please see
 `owncloud/config/config.sample.php`.
+
+[NOTE]
+====
+Many filesystems disallow the concurrent presence of a file and folder at the same level with the same name.
+Therefore no differenciation is made in processing as it would just return a deny at a later stage.
+With this behaviour you get a immediate error message.
+
+Example: The storage backend has a reserved directory name ".snapshot" which is excluded.
+In case you try to add a file via the browser or sync a file from the client named ".snapshot",
+you get a immediate ownCloud triggered deny.
+====
 
 == Impact on System Performance
 
@@ -39,23 +50,26 @@ foreign `.htaccess` file could overwrite rules defined by ownCloud.
 There is no explicit need to enter the file name `.htaccess` as
 parameter to the `blacklisted_files` array in `config.php`, but you can
 add more blacklisted file names if necessary.
+You can also prevent uploading eg. Outlook .pst files with this mechanism
+to avoid massive backend space allocation. 
 
 == Excluded Directories
 
 *Reason for excluding directories:*
 
-1.  Enterprise storage systems, or special filesystems like ZFS and
+. Enterprise storage systems, or special filesystems like ZFS and
 BtrFS are capable of snapshots. These snapshots are directories and keep
-point-in-time views of the data.
-2.  Snapshot directories are read-only.
-3.  There is no common naming for these directories, and most likely
+point-in-time views of the data
+.. Snapshot directories are read-only
+.. There is no common naming for these directories, and most likely
 will never be. NetApp uses `.snapshot` and `~snapshot`, EMC eg `.ckpt`,
 HDS eg `.latest` and `~latest`, the ZFS filesystem uses `.zfs` and so
-on.
-4.  Viewing and scanning of these directories does not make any sense as
-these directories are used to ease backup, restores, and cloning
-5.  Directories which are part of the mounted filesystem, but must not
-be accessible via ownCloud.
+on
+.. Viewing and scanning of these directories does not make sense to be visible to
+users as these directories are used to ease backup, restores, and cloning
+. Directories which are part of the mounted filesystem, but must not
+be user accessible/visible
+. Manual managed but user invisible backup directories
 
 *Example:*
 
@@ -96,7 +110,7 @@ file_2
 ...
 ----
 
-Example `excluded_directories` entries in `config.php` look like this:
+Example `excluded_directories` entries in `config.php` can look like this:
 
 [source,php]
 ----
@@ -123,7 +137,7 @@ But not:
 /etc/stuff/mydir1
 ----
 
-Example `blacklisted_files` entries in `config.php` look like this:
+Example `blacklisted_files` entries in `config.php` can look like this:
 
 [source,php]
 ----
