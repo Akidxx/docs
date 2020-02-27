@@ -28,8 +28,8 @@ Therefore no differentiation is made in processing as it would just return a den
 With this behaviour you get a immediate error message.
 
 Example: The storage backend has a reserved directory name ".snapshot" which is excluded.
-In case you try to add a file via the browser or sync a file from the client named ".snapshot",
-you get a immediate ownCloud triggered deny.
+If you try to add a file via the browser or sync a file from the client named ".snapshot",
+you get an immediate ownCloud triggered deny.
 ====
 
 == Impact on System Performance
