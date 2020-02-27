@@ -24,7 +24,7 @@ For example configurations please see
 [NOTE]
 ====
 Many filesystems disallow the concurrent presence of a file and folder at the same level with the same name.
-Therefore no differenciation is made in processing as it would just return a deny at a later stage.
+Therefore no differentiation is made in processing as it would just return a deny at a later stage.
 With this behaviour you get a immediate error message.
 
 Example: The storage backend has a reserved directory name ".snapshot" which is excluded.
