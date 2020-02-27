@@ -3,14 +3,13 @@
 
 == Definitions of terms
 
-*Blacklisted*::
-  Files that may harm the ownCloud environment like a foreign
-  `.htaccess` file. Blacklisting prevents anyone from uploading
-  blacklisted files to the ownCloud server.
-*Excluded*::
-  Existing directories on your ownCloud server, including directories on external
-  storage mounts, that are excluded from being processed by ownCloud. In
-  effect they are invisible to ownCloud.
+Blacklisted::
+Files that may harm the ownCloud environment like a foreign `.htaccess` file. 
+Blacklisting prevents anyone from uploading blacklisted files to the ownCloud server.
+
+Excluded::
+Existing directories on your ownCloud server, including directories on external storage mounts, that are excluded from being processed by ownCloud. 
+In effect they are invisible to ownCloud.
 
 Both types are defined in `config.php`. Blacklisted files and excluded
 directories are not scanned by ownCloud, not viewed, not synced, and
@@ -23,9 +22,10 @@ For example configurations please see
 
 [NOTE]
 ====
-Many filesystems disallow the concurrent presence of a file and folder at the same level with the same name.
-Therefore no differentiation is made in processing as it would just return a deny at a later stage.
-With this behaviour you get a immediate error message.
+Many filesystems are, by default, case-sensitive. 
+This means that multiple files or folders with the same name cannot exist in the same directory.
+Therefore no differentiation is made in processing, as it would just return a deny at a later stage.
+With this behaviour you get an immediate error message.
 
 Example: The storage backend has a reserved directory name ".snapshot" which is excluded.
 If you try to add a file via the browser or sync a file from the client named ".snapshot",
@@ -50,25 +50,19 @@ foreign `.htaccess` file could overwrite rules defined by ownCloud.
 There is no explicit need to enter the file name `.htaccess` as
 parameter to the `blacklisted_files` array in `config.php`, but you can
 add more blacklisted file names if necessary.
-You can also prevent uploading eg. Outlook .pst files with this mechanism
-to avoid massive backend space allocation. 
+You can also prevent uploading, e.g., Outlook .pst files, with this mechanism to avoid massive backend space allocation. 
 
 == Excluded Directories
 
-*Reason for excluding directories:*
+=== Reasons for Excluding Directories
 
-. Enterprise storage systems, or special filesystems like ZFS and
-BtrFS are capable of snapshots. These snapshots are directories and keep
-point-in-time views of the data
+. Enterprise storage systems, or special filesystems like ZFS and BtrFS are capable of snapshots. 
+  These snapshots are directories and keep point-in-time views of the data
 .. Snapshot directories are read-only
-.. There is no common naming for these directories, and most likely
-will never be. NetApp uses `.snapshot` and `~snapshot`, EMC eg `.ckpt`,
-HDS eg `.latest` and `~latest`, the ZFS filesystem uses `.zfs` and so
-on
-.. Viewing and scanning of these directories does not make sense to be visible to
-users as these directories are used to ease backup, restores, and cloning
-. Directories which are part of the mounted filesystem, but must not
-be user accessible/visible
+.. There is no common naming convention for these directories, and there most likely will never be. 
+   For example, NetApp uses `.snapshot` and `~snapshot`, EMC e.g., `.ckpt`, HDS e.g., `.latest` and `~latest`, and the ZFS filesystem uses `.zfs`
+.. It does not make sense for these directories to be visible to users as they are used to ease backup, restoration, and cloning
+. Directories which are part of the mounted filesystem, but must not be user accessible/visible
 . Manual managed but user invisible backup directories
 
 *Example:*
