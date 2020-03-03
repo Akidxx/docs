@@ -53,6 +53,6 @@ RewriteRule ^\.well-known/openid-configuration /index.php/apps/openidconnect/con
 //== SAML migration
 // Recommend consulting
 
-//== OAuth2 and OIDC are mutually exclusive
+//== OAuth2 app and OIDC are mutually exclusive before version 0.4.4
 
 //== Deployment, Configuration and Test Setup
